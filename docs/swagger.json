@@ -1,0 +1,78 @@
+{
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "This is the API for responsible for generating a microservice repository (based on the language chosen) with the infrastrucure repository as well",
+        "title": "Infra provision orchestrator API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "rhiadc",
+            "email": "rhiad.ciccoli@gmail.com"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/create-repo": {
+            "post": {
+                "description": "Returns a the link of the github project generated and the link of the infrastructure repository as well",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "workflow"
+                ],
+                "summary": "Create a repository for the type of service chosen",
+                "parameters": [
+                    {
+                        "description": "Create New repo",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/server.createRepoRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/server.createRepoResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {}
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "server.createRepoRequest": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "kind": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "server.createRepoResponse": {
+            "type": "object"
+        }
+    }
+}
