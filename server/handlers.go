@@ -6,14 +6,15 @@ import (
 	"net/http"
 
 	"github.com/go-chi/render"
+	"github.com/pingcap/log"
 	"github.com/rhiadc/infra-provision-orch/domain"
 )
 
 type Repohandler struct {
-	service *domain.Service
+	service domain.Services
 }
 
-func NewRepoHandler(service *domain.Service) *Repohandler {
+func NewRepoHandler(service domain.Services) *Repohandler {
 	return &Repohandler{service: service}
 }
 
@@ -37,9 +38,14 @@ func (h Repohandler) CreateRepo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	req := mapRepo(*data)
-	h.service.PushToGit(req)
+	res, err := h.service.PushToGit(req)
+	if err != nil {
+		log.Error(err.Error())
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
 	render.Status(r, http.StatusCreated)
-	w.Write([]byte(fmt.Sprintf("%s has been created successfully", data.Name)))
+	w.Write([]byte(fmt.Sprintf("%s has been successfully created", res)))
 }
 
 type createRepoRequest struct {
