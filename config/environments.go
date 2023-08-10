@@ -5,7 +5,6 @@ import (
 
 	"github.com/pingcap/log"
 	"github.com/spf13/viper"
-	"google.golang.org/appengine/log"
 )
 
 type Environments struct {
@@ -18,6 +17,7 @@ type Git struct {
 	Token              string
 	Owner              string
 	GolangTemplateRepo string
+	APIVersion         string
 }
 
 func LoadEnvVars() *Environments {
@@ -28,8 +28,9 @@ func LoadEnvVars() *Environments {
 	viper.SetDefault("REPO_OWNER", "Rhiadc")
 	viper.SetDefault("GOLANG_TEMPLATE_REPO", "https://www.github.com/rhiadc/so")
 	viper.SetDefault("TOKEN", "some-token")
+	viper.SetDefault("API_VERSION", "v1")
 	if err := viper.ReadInConfig(); err != nil {
-		log.Info(fmt.Sprintf("unable to find or read config file: %w", err))
+		log.Info(fmt.Sprintf("unable to find or read config file: %s", err))
 	}
 
 	return &Environments{
@@ -39,6 +40,7 @@ func LoadEnvVars() *Environments {
 			Token:              viper.GetString("TOKEN"),
 			GolangTemplateRepo: viper.GetString("GOLANG_TEMPLATE_REPO"),
 			Owner:              viper.GetString("REPO_OWNER"),
+			APIVersion:         viper.GetString("API_VERSION"),
 		},
 	}
 }

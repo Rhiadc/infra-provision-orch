@@ -36,7 +36,8 @@ func (h Repohandler) CreateRepo(w http.ResponseWriter, r *http.Request) {
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
 	}
-	h.service.PushToGit()
+	req := mapRepo(*data)
+	h.service.PushToGit(req)
 	render.Status(r, http.StatusCreated)
 	w.Write([]byte(fmt.Sprintf("%s has been created successfully", data.Name)))
 }

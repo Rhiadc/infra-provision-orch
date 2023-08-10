@@ -1,14 +1,19 @@
 package domain
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/rhiadc/infra-provision-orch/config"
+)
 
 type Service struct {
+	git config.Git
 }
 
-func NewService() *Service {
-	return &Service{}
+func NewService(git config.Git) *Service {
+	return &Service{git: git}
 }
 
-func (s *Service) PushToGit() {
-	fmt.Println("Pushed")
+func (s *Service) PushToGit(r Repo) {
+	fmt.Println(r)
 }
