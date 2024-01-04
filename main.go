@@ -21,25 +21,6 @@ func main() {
 
 	envs := config.LoadEnvVars()
 	gitService := domain.NewService(envs.Git)
-
-	//domain.PushToECR()
-	/*gitClient := domain.NewGitClient(envs.GitConfigChart)
-	repo, err := gitClient.CloneRepo()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	wt, err := gitClient.PullFromMain(repo)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fileName := "test.txt"
-	fileName = filepath.Join("pp", fileName)
-
-	if err := gitClient.AddCommitAndPush(repo, wt, fileName); err != nil {
-		log.Fatal(err)
-	}*/
 	_ = server.NewServer(gitService, envs)
 
 }
